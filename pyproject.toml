@@ -1,0 +1,95 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mt5-mcp-ui"
+version = "0.3.0"
+description = "AI-powered trading assistant bridging LLMs to MetaTrader 5 via MCP protocol - Built for MCP's 1st Birthday Hackathon"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Cloudmeru", email = "info@cloudmeru.com"}]
+keywords = [
+    "mcp",
+    "model-context-protocol",
+    "metatrader5",
+    "mt5",
+    "trading",
+    "ai",
+    "gradio",
+    "llm",
+    "agent",
+    "technical-analysis",
+    "forex",
+    "forecasting",
+    "prophet",
+    "xgboost"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: Developers",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: Microsoft :: Windows",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "mt5-mcp>=0.4.0",
+    "gradio>=5.0.0",
+    "mcp>=1.0.0",
+    "openai>=1.0.0",
+    "anthropic>=0.30.0",
+    "python-dotenv>=1.0.0",
+    "pyyaml>=6.0.0",
+    "httpx>=0.25.0",
+    "huggingface-hub>=0.20.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+spaces = [
+    "gradio[oauth]>=5.0.0",
+]
+
+[project.scripts]
+mt5-mcp-ui = "mt5_mcp_ui.__main__:main"
+
+[project.urls]
+"Homepage" = "https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui"
+"Repository" = "https://github.com/Cloudmeru/mt5-mcp-ui"
+"Bug Tracker" = "https://github.com/Cloudmeru/mt5-mcp-ui/issues"
+"Documentation" = "https://github.com/Cloudmeru/mt5-mcp-ui#readme"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mt5_mcp_ui"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.pylint.messages_control]
+# Disable false positives for Gradio dynamic members
+disable = [
+    "no-member",  # Gradio components have dynamic members
+]
+
+[tool.pylint.format]
+max-line-length = 100
