@@ -232,7 +232,8 @@ pip install mt5-mcp-ui
 
 # Create .env file
 cat > .env << EOF
-MCP_SERVER_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp
+MCP_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp/sse
+MCP_TRANSPORT=sse
 OPENAI_API_KEY=your-key-here
 EOF
 
@@ -256,8 +257,11 @@ python -m mt5_mcp --transport http --host 0.0.0.0 --port 7860
 pip install mt5-mcp-ui
 
 # Configure MCP server URL
-export MCP_SERVER_URL=http://localhost:7860/gradio_api/mcp
-export OPENAI_API_KEY=your-key-here
+cat > .env << EOF
+MCP_URL=http://localhost:7860/gradio_api/mcp/sse
+MCP_TRANSPORT=sse
+OPENAI_API_KEY=your-key-here
+EOF
 
 # Run UI
 python -m mt5_mcp_ui --mode development
@@ -300,7 +304,8 @@ RUN pip install -e .
 EXPOSE 7860
 
 # UI client only - must connect to MCP server
-ENV MCP_SERVER_URL=""
+ENV MCP_URL=""
+ENV MCP_TRANSPORT="sse"
 ENV PRODUCTION_MODE=true
 
 CMD ["python", "-m", "mt5_mcp_ui", "--mode", "production", "--host", "0.0.0.0"]
@@ -318,7 +323,8 @@ services:
       - "7860:7860"
     environment:
       # REQUIRED: Point to the main MCP server
-      - MCP_SERVER_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp
+      - MCP_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp/sse
+      - MCP_TRANSPORT=sse
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - PRODUCTION_MODE=true
     restart: unless-stopped
@@ -339,8 +345,9 @@ PRODUCTION_MODE=false             # Legacy toggle (true forces production)
 
 # MCP Server Connection (REQUIRED - this is a client only)
 # Point to the main MetaTrader 5 MCP Server
-MCP_SERVER_URL=http://localhost:7860/gradio_api/mcp
-MCP_TRANSPORT=streamable_http     # 'sse' or 'streamable_http'
+MCP_URL=http://localhost:7860/gradio_api/mcp/sse
+MT5_MCP_URL=http://localhost:7860/gradio_api/mcp/sse  # Alternative (legacy compatibility)
+MCP_TRANSPORT=sse                 # 'sse' or 'streamable_http'
 
 # Gradio Server
 GRADIO_SERVER_PORT=7860
@@ -459,18 +466,22 @@ Or connect to running MCP server:
 
 ## 9. LLM Provider Support
 
+**Providers Available in UI Dropdown:**
+
 | Provider | Models | Env Variable | Notes |
 |----------|--------|--------------|-------|
-| **OpenAI** | GPT-4o, GPT-4o-mini, o1, o1-mini | `OPENAI_API_KEY` | Default provider |
-| **Anthropic** | Claude 3.5 Sonnet, Claude 3 Opus | `ANTHROPIC_API_KEY` | Excellent for analysis |
-| **Google** | Gemini 2.5 Flash, Gemini 2.5 Pro | `GOOGLE_API_KEY` | Fast responses |
-| **Azure OpenAI** | GPT-4o deployments | `AZURE_OPENAI_API_KEY` | Enterprise grade |
-| **Azure AI Foundry** | DeepSeek, Phi, Mistral | `AZURE_AI_API_KEY` | Microsoft Foundry |
-| **xAI** | Grok-3, Grok-3-mini | `XAI_API_KEY` | Alternative option |
-| **GitHub Models** | GPT-4o, Claude, etc. | `GITHUB_TOKEN` | Via GitHub |
-| **OpenRouter** | 200+ models | `OPENROUTER_API_KEY` | Unified API |
-| **Ollama** | Local models | (no key) | Self-hosted |
-| **HuggingFace** | Inference API | `HUGGINGFACE_API_KEY` | Cloud inference |
+| **OpenAI** | GPT-4o, GPT-4o-mini, o1, o1-mini | `OPENAI_API_KEY` or `LLM_API_KEY` | Default provider (openai) |
+| **Azure OpenAI** | GPT-4o deployments | `AZURE_OPENAI_API_KEY` | Cognitive Services (azure_openai) |
+| **Azure AI Foundry** | DeepSeek, Phi, Mistral, various | `AZURE_AI_API_KEY` | Microsoft Foundry (azure_foundry) |
+| **Azure AI Inference SDK** | Various models | `AZURE_AI_API_KEY` | Azure AI Inference (azure_ai_inference) |
+| **Ollama** | Local models (Llama, Mistral, etc.) | None | Self-hosted (ollama) |
+
+**Additional Providers via OpenAI-Compatible API:**
+
+For Anthropic, Google, xAI, GitHub Models, OpenRouter, HuggingFace, etc., select `openai` provider and configure:
+- `LLM_BASE_URL`: Provider's base URL
+- `LLM_API_KEY`: Provider's API key
+- `LLM_MODEL`: Model name
 
 ---
 

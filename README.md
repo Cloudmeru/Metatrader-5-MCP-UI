@@ -130,7 +130,8 @@ pip install mt5-mcp-ui
 
 # Create .env with testing endpoint
 cat > .env << EOF
-MCP_SERVER_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp
+MCP_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp/sse
+MCP_TRANSPORT=sse
 OPENAI_API_KEY=your-key-here
 EOF
 
@@ -142,12 +143,16 @@ python -m mt5_mcp_ui
 First install the [main server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server), then:
 
 ```bash
-# Terminal 1: Start main MCP server
+# Terminal 1: Start main MCP server (requires Windows + MT5)
 python -m mt5_mcp --transport http --port 7860
 
-# Terminal 2: Start this UI
+# Terminal 2: Start this UI (any platform)
 pip install mt5-mcp-ui
-echo "MCP_SERVER_URL=http://localhost:7860/gradio_api/mcp" > .env
+cat > .env << EOF
+MCP_URL=http://localhost:7860/gradio_api/mcp/sse
+MCP_TRANSPORT=sse
+OPENAI_API_KEY=your-key-here
+EOF
 python -m mt5_mcp_ui
 ```
 
@@ -193,32 +198,39 @@ graph TB
 
 Visit the live demo: [**MetaTrader 5 Financial Analyst**](https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui)
 
-### Option 2: Local Windows Installation (Full Access or Demo)
+### Option 2: Local Installation (Any Platform)
 
 ```bash
-# Requires Windows + MetaTrader 5 installed and logged in
-
 # Install
 pip install mt5-mcp-ui
+
+# Configure MCP server connection (testing server by default)
+cat > .env << EOF
+MCP_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp/sse
+MCP_TRANSPORT=sse
+OPENAI_API_KEY=your-key-here
+EOF
 
 # Run in development mode (default) for full configuration access
 python -m mt5_mcp_ui --mode development
 
-# Or launch the kiosk-style demo experience (Settings locked but tests work)
+# Or launch the demo experience (Settings visible but read-only)
 python -m mt5_mcp_ui --mode demo
-
-# This UI connects to the main MCP server
 ```
 
-### Option 3: Connect to Remote MCP Server
+### Option 3: Connect to Custom MCP Server
 
 ```bash
-# Linux/macOS/Cloud - connects to remote MCP server
+# Any platform - connect to your own MCP server
 
-# Set environment variable
-export MCP_URL=http://your-windows-server:7860/gradio_api/mcp/sse
+# Create .env file
+cat > .env << EOF
+MCP_URL=http://your-windows-server:7860/gradio_api/mcp/sse
+MCP_TRANSPORT=sse
+OPENAI_API_KEY=your-key-here
+EOF
 
-# Run the UI in development mode (default) or demo/production as needed
+# Run the UI
 python -m mt5_mcp_ui --mode development
 ```
 
@@ -246,10 +258,11 @@ APP_MODE=development
 # Legacy flag still supported for production deployments
 PRODUCTION_MODE=false
 
-# MCP Server URL (REQUIRED - this UI is a client only)
+# MCP Server Connection (REQUIRED - this UI is a client only)
 # Point to the main MetaTrader 5 MCP Server
 MCP_URL=http://localhost:7860/gradio_api/mcp/sse
-MCP_TRANSPORT=streamable_http
+MT5_MCP_URL=http://localhost:7860/gradio_api/mcp/sse  # Alternative (legacy compatibility)
+MCP_TRANSPORT=sse  # 'sse' or 'streamable_http'
 
 # LLM Provider API Keys (set at least one)
 OPENAI_API_KEY=sk-...
@@ -350,18 +363,17 @@ Or connect to the testing server:
 
 ## 🤖 AI Model Providers
 
-| Provider | Models | Notes |
-|----------|--------|-------|
-| **OpenAI** | GPT-4o, GPT-4o-mini, o1, o1-mini | Default |
-| **Anthropic** | Claude 3.5 Sonnet, Claude 3 Opus | Excellent for analysis |
-| **Google** | Gemini 2.5 Flash, Gemini 2.5 Pro | Fast |
-| **Azure OpenAI** | GPT-4o deployments | Enterprise |
-| **Azure AI Foundry** | Various models | Microsoft Foundry |
-| **xAI** | Grok-3, Grok-3-mini | Alternative |
-| **GitHub Models** | GPT-4o, Claude, etc. | Via GitHub |
-| **OpenRouter** | 200+ models | Unified API |
-| **Ollama** | Local models | Self-hosted |
-| **HuggingFace** | Inference API models | Cloud inference |
+**Available in UI Dropdown:**
+
+| Provider | Models | API Key Variable | Notes |
+|----------|--------|------------------|-------|
+| **OpenAI** | GPT-4o, GPT-4o-mini, o1, o1-mini | `OPENAI_API_KEY` or `LLM_API_KEY` | Default |
+| **Azure OpenAI** | GPT-4o deployments | `AZURE_OPENAI_API_KEY` | Cognitive Services |
+| **Azure AI Foundry** | DeepSeek, Phi, Mistral, etc. | `AZURE_AI_API_KEY` | Microsoft Foundry |
+| **Azure AI Inference SDK** | Various models | `AZURE_AI_API_KEY` | Azure AI Inference |
+| **Ollama** | Local models (Llama, Mistral, etc.) | None | Self-hosted |
+
+**Note:** The UI dropdown shows these 5 providers. For other providers (Anthropic, Google, xAI, GitHub Models, OpenRouter, HuggingFace), use `openai` provider with appropriate base URL and API key
 
 ---
 

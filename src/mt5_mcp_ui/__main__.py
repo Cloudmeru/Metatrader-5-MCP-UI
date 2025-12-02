@@ -45,7 +45,7 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Environment Variables:
-  MCP_URL          MCP server endpoint (default: http://localhost:7861/gradio_api/mcp/sse)
+  MCP_URL          MCP server endpoint (default: testing server)
   MCP_TRANSPORT    Transport protocol: sse or streamable_http (default: sse)
   LLM_PROVIDER     LLM provider (openai, azure_openai, azure_foundry, azure_ai_inference, ollama)
   LLM_MODEL        LLM model name or deployment name
@@ -54,14 +54,14 @@ Environment Variables:
   LLM_API_VERSION  API version for Azure providers (default: 2024-12-01-preview)
 
 Examples:
-  # Run with default settings
+  # Run with default settings (connects to testing server)
   python -m mt5_mcp_ui
 
   # Run on custom port with public link
   python -m mt5_mcp_ui --port 8080 --share
 
-  # Use environment variables
-  MCP_URL=http://my-server:7861/gradio_api/mcp python -m mt5_mcp_ui
+  # Connect to custom MCP server
+  MCP_URL=http://localhost:7860/gradio_api/mcp/sse python -m mt5_mcp_ui
         """,
     )
     parser.add_argument(

@@ -194,7 +194,7 @@ class Config:
         # MCP settings - support both SSE and Streamable HTTP
         # Check both MCP_URL and MT5_MCP_URL for compatibility
         self.mcp_url = os.getenv("MCP_URL") or os.getenv(
-            "MT5_MCP_URL", "http://localhost:7861/gradio_api/mcp/sse"
+            "MT5_MCP_URL", "https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp/sse"
         )
         self.mcp_transport = os.getenv(
             "MCP_TRANSPORT", "sse"
@@ -1651,7 +1651,7 @@ def create_app() -> gr.Blocks:
                             mcp_url = gr.Textbox(
                                 label="MCP Server URL",
                                 value=config.mcp_url,
-                                placeholder="http://localhost:7861/gradio_api/mcp/sse",
+                                placeholder="https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp/sse",
                                 interactive=not settings_locked,
                             )
                             mcp_transport = gr.Radio(
