@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "mt5-mcp-ui"
 version = "0.3.0"
-description = "AI-powered trading assistant bridging LLMs to MetaTrader 5 via MCP protocol - Built for MCP's 1st Birthday Hackathon"
+description = "AI-powered financial analyst connecting LLMs to MetaTrader 5 via MCP protocol - Professional market analysis and forecasting"
 readme = "README.md"
 license = {text = "MIT"}
 authors = [{name = "Cloudmeru", email = "info@cloudmeru.com"}]
@@ -14,23 +14,28 @@ keywords = [
     "model-context-protocol",
     "metatrader5",
     "mt5",
-    "trading",
-    "ai",
+    "financial-analysis",
+    "market-analysis",
+    "ai-analyst",
     "gradio",
     "llm",
-    "agent",
+    "ai-agent",
     "technical-analysis",
     "forex",
     "forecasting",
     "prophet",
-    "xgboost"
+    "xgboost",
+    "quantitative-analysis"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Financial and Insurance Industry",
     "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
     "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Office/Business :: Financial",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",

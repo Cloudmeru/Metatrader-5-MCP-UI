@@ -60,22 +60,30 @@
 | Creative | `mcp-in-action-track-creative` | 🥈 $750 Claude credits |
 | **Best Overall** | `mcp-in-action-track-*` | 🥇 $1,500 + $1,250 credits |
 
-**Our Focus:** `mcp-in-action-track-consumer` - Agentic trading assistant
+**Our Focus:** `mcp-in-action-track-consumer` - Agentic financial analyst
 
 > 💡 **Tip:** You can submit the same app to BOTH tracks!
 
 ---
 
+## ⚠️ Project Clarification
+
+**This is a POC UI** for the main project: **[MetaTrader 5 MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server)**
+
+- **Main Project**: Production-ready Gradio 6 MCP server at `/gradio_api/mcp/`
+- **This Submission**: Demonstration UI client showing MCP protocol integration
+- **Testing**: `https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp`
+
 ## 📝 HuggingFace Space README Template
 
 ```yaml
 ---
-title: MT5 Trading Assistant
-emoji: 📈
-colorFrom: blue
-colorTo: green
+title: MetaTrader 5 Financial Analyst
+emoji: 📊
+colorFrom: indigo
+colorTo: purple
 sdk: gradio
-sdk_version: "5.0.0"
+sdk_version: "6.0.1"
 app_file: app.py
 pinned: false
 license: mit
@@ -91,9 +99,9 @@ tags:
   - forecasting
 ---
 
-# 🤖 MT5 Trading Assistant
+# 🤖 MetaTrader 5 Financial Analyst
 
-AI-powered trading analysis connecting LLMs to MetaTrader 5 via MCP protocol.
+**POC UI** for [MetaTrader 5 MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server) - AI-powered financial analysis via MCP protocol.
 
 ## 🎬 Demo Video
 
@@ -111,11 +119,11 @@ AI-powered trading analysis connecting LLMs to MetaTrader 5 via MCP protocol.
 
 ## 🚀 Features
 
-- 💬 **Agentic Chat:** AI assistant with tool calling and thought display
-- 🔌 **MCP Server:** Expose MT5 tools to Claude Desktop, Cursor, VS Code
-- 📊 **80+ Indicators:** RSI, MACD, Bollinger Bands, and more
-- 🔮 **ML Forecasting:** Prophet time-series + XGBoost signals
-- 🔒 **Read-Only:** Safe market analysis without trade execution
+- 💬 **Professional Analysis:** AI-powered financial analyst with tool calling and reasoning transparency
+- 🔌 **MCP Server:** Expose MT5 analytical tools to Claude Desktop, Cursor, VS Code
+- 📊 **80+ Indicators:** RSI, MACD, Bollinger Bands, and comprehensive technical analysis
+- 🔮 **ML Forecasting:** Prophet time-series forecasting + XGBoost predictive signals
+- 🔒 **Read-Only:** Safe market analysis environment without trade execution
 
 ## 🛠️ Built With
 
@@ -125,12 +133,18 @@ AI-powered trading analysis connecting LLMs to MetaTrader 5 via MCP protocol.
 - [Prophet](https://facebook.github.io/prophet/) - Time-series forecasting
 - [XGBoost](https://xgboost.readthedocs.io/) - ML trading signals
 
-## 📖 How It Works
+## 📖 Architecture
 
-1. User asks about market analysis in chat
-2. Agent decides which MT5 tools to use
-3. Tools fetch real-time data from MetaTrader 5
-4. Results visualized with charts and insights
+```
+User → This UI (POC Client) → MCP Server (Main Project) → MetaTrader 5
+```
+
+1. User requests analysis in this Gradio UI
+2. UI sends MCP requests to [main server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server)
+3. Main server queries MetaTrader 5 with 80+ indicators
+4. Professional insights delivered to user
+
+**Testing MCP Endpoint**: `https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp`
 
 ## 🔧 MCP Tools Available
 
@@ -144,7 +158,7 @@ AI-powered trading analysis connecting LLMs to MetaTrader 5 via MCP protocol.
 ## 🏆 Hackathon Tracks
 
 - **Track 1:** Building MCP - Consumer MCP Server
-- **Track 2:** MCP in Action - Agentic Trading Assistant
+- **Track 2:** MCP in Action - Professional AI Financial Analyst
 
 ---
 
@@ -196,15 +210,15 @@ AI-powered trading analysis connecting LLMs to MetaTrader 5 via MCP protocol.
 ### X (Twitter)
 
 ```
-🚀 Introducing MT5 Trading Assistant - my submission for @Gradio's MCP 1st Birthday Hackathon! 🎂
+🚀 Introducing MetaTrader 5 Financial Analyst - my submission for @Gradio's MCP 1st Birthday Hackathon! 🎂
 
-✅ AI-powered trading analysis
+✅ AI-powered financial analysis
 ✅ 80+ technical indicators
 ✅ Prophet forecasting + XGBoost ML
 ✅ Built with Gradio 6 + MCP protocol
 ✅ Read-only & safe
 
-Try it: https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui
+Try it: https://huggingface.co/spaces/MCP-1st-Birthday/MetaTrader 5 Financial Analyst
 
 #MCPHackathon #Gradio #Trading #AI #MCP @AnthropicAI @huggingface
 
@@ -216,7 +230,7 @@ Try it: https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui
 ```
 🏆 Excited to share my submission for MCP's 1st Birthday Hackathon hosted by Anthropic and Gradio!
 
-MT5 Trading Assistant bridges AI to MetaTrader 5 via the Model Context Protocol (MCP).
+MetaTrader 5 Financial Analyst bridges AI to MetaTrader 5 via the Model Context Protocol (MCP).
 
 Key Features:
 💬 Agentic chat with tool calling
@@ -267,7 +281,7 @@ GitHub: [Repo Link]
 | **Functionality** | High | MCP server + Agent + 80+ indicators + ML |
 | **Creativity** | High | Unique trading + AI bridge in MCP space |
 | **Documentation** | Medium | Comprehensive README + demo video |
-| **Real-world Impact** | High | Democratize AI trading analysis |
+| **Real-world Impact** | High | Democratize AI financial analysis |
 
 ---
 
@@ -302,7 +316,7 @@ Before submitting, verify:
 
 ```bash
 # 1. Space is accessible
-curl https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui
+curl https://huggingface.co/spaces/MCP-1st-Birthday/MetaTrader 5 Financial Analyst
 
 # 2. README has all required fields
 # - Track tags
@@ -319,3 +333,4 @@ curl https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui
 ---
 
 **Good luck! 🍀 Let's win this hackathon!**
+

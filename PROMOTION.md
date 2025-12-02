@@ -58,7 +58,7 @@ mt5-mcp-ui --port 7860
 ```
 
 Features:
-- 💬 Chat with DeepSeek AI about your trading data
+- 💬 Chat with DeepSeek AI about your market data
 - 📊 Real-time MT5 charts and indicators
 - 🔮 Prophet forecasting & XGBoost ML signals
 - 🔌 REST API for integration
@@ -108,12 +108,12 @@ Add these topics to both repositories:
 - `metatrader5`
 - `mt5`
 - `gradio`
-- `trading-bot`
-- `ai-assistant`
+- `financial-analysis`
+- `ai-analyst`
 - `deepseek`
 - `azure`
 - `web-ui`
-- `trading`
+- `quantitative-analysis`
 - `forex`
 
 ---
@@ -131,13 +131,13 @@ Add these topics to both repositories:
 
 **X/Twitter:**
 ```
-🏆 Submitting MT5 Trading Assistant to @Gradio's MCP 1st Birthday Hackathon! 🎂
+🏆 Submitting MetaTrader 5 Financial Analyst to @Gradio's MCP 1st Birthday Hackathon! 🎂
 
-Connect Claude/Copilot to MetaTrader 5 for AI-powered trading analysis:
+Professional AI-powered financial analyst connecting Claude/Copilot to MetaTrader 5:
 
-✅ Agentic chat with tool calling
-✅ 80+ technical indicators
-✅ Prophet + XGBoost ML signals
+✅ Expert-level market analysis with reasoning transparency
+✅ 80+ technical indicators + quantitative analysis
+✅ Prophet forecasting + XGBoost predictive signals
 ✅ Built with Gradio 6 + MCP protocol
 
 🚀 Try it: [HF Space Link]
@@ -148,14 +148,14 @@ Connect Claude/Copilot to MetaTrader 5 for AI-powered trading analysis:
 
 **LinkedIn:**
 ```
-🏆 Proud to submit MT5 Trading Assistant to MCP's 1st Birthday Hackathon!
+🏆 Proud to submit MetaTrader 5 Financial Analyst to MCP's 1st Birthday Hackathon!
 
 This project bridges AI assistants to live MetaTrader 5 data via the Model Context Protocol (MCP).
 
 Key Features:
-💬 Agentic chat with tool calling and thought visualization
-📊 80+ technical indicators (RSI, MACD, Bollinger, etc.)
-🔮 Prophet time-series forecasting + XGBoost ML signals
+💬 Professional AI analyst with tool calling and reasoning transparency
+📊 80+ technical indicators (RSI, MACD, Bollinger Bands, ATR, etc.)
+🔮 Prophet time-series forecasting + XGBoost predictive signals
 🔌 MCP server integration for Claude Desktop & Cursor
 
 Built with:
@@ -163,7 +163,7 @@ Built with:
 • mt5-mcp package
 • FastMCP server
 
-This democratizes AI-powered trading analysis for retail traders!
+This democratizes professional-grade financial analysis for retail investors!
 
 🚀 Try it: [HuggingFace Space]
 🎬 Demo: [YouTube Video]
@@ -176,15 +176,15 @@ Built for MCP's 1st Birthday Hackathon hosted by Anthropic and Gradio.
 
 **Reddit (r/algotrading):**
 ```
-[Project] MT5 Trading Assistant - AI-powered MetaTrader 5 analysis via MCP
+[Project] MetaTrader 5 Financial Analyst - Professional AI-powered market analysis via MCP
 
 Hey r/algotrading! I built this for the MCP 1st Birthday Hackathon and wanted to share.
 
 What it does:
-- Chat with an AI agent that can query your MT5 data in real-time
-- Get RSI, MACD, Bollinger Bands, and 80+ other indicators
-- Prophet forecasting with confidence intervals
-- XGBoost-based BUY/SELL/HOLD signals
+- Professional AI financial analyst that queries your MT5 data in real-time
+- Comprehensive technical analysis: RSI, MACD, Bollinger Bands, and 80+ indicators
+- Prophet time-series forecasting with confidence intervals
+- XGBoost-based predictive signals (BUY/SELL/HOLD)
 
 Tech stack:
 - Gradio 6 for the UI
@@ -201,12 +201,13 @@ Links in comments. Feedback welcome!
 ### Keywords to Include in README:
 - MetaTrader 5 MCP Server
 - Claude Desktop MetaTrader integration
-- VS Code Copilot trading
-- AI trading assistant
+- VS Code Copilot financial analysis
+- AI financial analyst
 - Forex analysis with AI
-- Model Context Protocol trading
+- Model Context Protocol financial analysis
 - MT5 Python API
-- Trading technical analysis AI
+- Financial technical analysis AI
+- Quantitative analysis AI
 
 ### README Structure for SEO:
 1. Clear title with main keywords
@@ -224,7 +225,7 @@ Links in comments. Feedback welcome!
 ### Add to Repository:
 - **Website**: `https://pypi.org/project/mt5-mcp/`
 - **Topics**: (listed above)
-- **Description**: "MCP server connecting AI assistants (Claude, Copilot) to MetaTrader 5 for trading analysis"
+- **Description**: "Professional AI financial analyst connecting Claude, Copilot to MetaTrader 5 via MCP for comprehensive market analysis"
 
 ### Create GitHub Releases:
 - Tag each version (v0.4.0, v0.4.1, etc.)
@@ -281,3 +282,4 @@ Links in comments. Feedback welcome!
 3. **Share updates** about any improvements made
 4. **Cross-promote** other hackathon participants
 5. **Prepare for demo** if invited to present
+

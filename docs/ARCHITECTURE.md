@@ -1,4 +1,4 @@
-# MT5-MCP-UI: Complete Architecture & Deployment Guide
+# MetaTrader 5 Financial Analyst: Complete Architecture & Deployment Guide
 
 > 🏆 **MCP's 1st Birthday Hackathon Submission** - Hosted by Anthropic and Gradio
 > 
@@ -25,15 +25,15 @@
 
 ## 1. Project Overview
 
-**Name:** `mt5-mcp-ui`  
-**Purpose:** AI-powered trading assistant that bridges LLMs to MetaTrader 5 via the MCP protocol, built with Gradio 6 for the MCP 1st Birthday Hackathon.
+**Name:** `MetaTrader 5 Financial Analyst`  
+**Purpose:** AI-powered financial analyst that bridges LLMs to MetaTrader 5 via the MCP protocol, built with Gradio 6 for the MCP 1st Birthday Hackathon.
 
 **Hackathon Tracks:**
 - 🔧 **Track 1: Building MCP** - `building-mcp-track-consumer` (MCP server for retail traders)
-- 🤖 **Track 2: MCP in Action** - `mcp-in-action-track-consumer` (Agentic trading assistant)
+- 🤖 **Track 2: MCP in Action** - `mcp-in-action-track-consumer` (Agentic financial analyst)
 
 **Key Features:**
-- 💬 Chat-based trading assistant UI (Gradio 6 Blocks + ChatInterface)
+- 💬 Chat-based financial analyst UI (Gradio 6 Blocks + ChatInterface)
 - 🔌 Native MCP Server integration (`mcp_server=True`)
 - 🤖 Autonomous agent behavior with tool calling (planning, reasoning, execution)
 - 📊 Real-time MT5 data visualization & technical analysis
@@ -45,7 +45,7 @@
 
 ## 2. Architecture Modes
 
-MT5 MCP UI operates in two infrastructure topologies:
+MetaTrader 5 Financial Analyst operates in two infrastructure topologies:
 
 ### 2.1 App Mode (Client Only)
 
@@ -54,7 +54,7 @@ UI-only mode that connects to a remote MCP server for MT5 data access.
 ```mermaid
 flowchart LR
   subgraph cloud["Cloud / HuggingFace / Linux / macOS"]
-    gradio_app["MT5 MCP UI (App Mode)<br/>Gradio UI"]
+    gradio_app["MetaTrader 5 Financial Analyst (App Mode)<br/>Gradio UI"]
     gradio_app --> mcp_client_app["MCP Client"]
   end
   subgraph windows_server["Windows PC with MT5"]
@@ -78,7 +78,7 @@ Full MCP server that exposes MT5 tools via the MCP protocol.
 ```mermaid
 flowchart LR
   subgraph windows_local["Windows PC with MT5"]
-    subgraph mcp_ui["MT5 MCP UI (MCP Mode)"]
+    subgraph mcp_ui["MetaTrader 5 Financial Analyst (MCP Mode)"]
       gradio_local["Gradio UI"]
       toolproxy_local["ToolProxy"]
       mt5mcp_local["mt5-mcp library"]
@@ -149,7 +149,7 @@ python -m mt5_mcp_ui --mode demo
 ## 4. Repository Structure
 
 ```
-mt5-mcp-ui/
+MetaTrader 5 Financial Analyst/
 ├── .github/
 │   ├── FUNDING.yml
 │   ├── workflows/
@@ -238,7 +238,7 @@ class Config:
 
 ```bash
 # Requirements: Windows + MT5 installed and logged in
-pip install mt5-mcp-ui
+pip install MetaTrader 5 Financial Analyst
 
 # Run with default settings
 python -m mt5_mcp_ui
@@ -314,7 +314,7 @@ version: '3.8'
 
 services:
   mt5-ui:
-    image: mt5-mcp-ui
+    image: MetaTrader 5 Financial Analyst
     build: .
     ports:
       - "7860:7860"
@@ -659,3 +659,4 @@ python -m mt5_mcp_ui --mode development
 ---
 
 *For more information, see [README.md](../README.md) and [CONTRIBUTING.md](../CONTRIBUTING.md)*
+

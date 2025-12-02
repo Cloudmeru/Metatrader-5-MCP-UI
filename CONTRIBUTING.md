@@ -1,13 +1,13 @@
-# Contributing to MT5 Trading Assistant
+# Contributing to MetaTrader 5 Financial Analyst
 
-Thank you for your interest in contributing to MT5 Trading Assistant! This guide will help you get started.
+Thank you for your interest in contributing to MetaTrader 5 Financial Analyst! This guide will help you get started.
 
 ## 🚀 Quick Start
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/Cloudmeru/mt5-mcp-ui.git
-   cd mt5-mcp-ui
+   git clone https://github.com/Cloudmeru/Metatrader-5-MCP-UI.git
+   cd Metatrader-5-MCP-UI
    ```
 
 2. **Create a virtual environment**
@@ -52,7 +52,7 @@ ruff check --fix .
 ### Project Structure
 
 ```
-mt5-mcp-ui/
+metatrader-5-financial-analyst/
 ├── src/mt5_mcp_ui/
 │   ├── __init__.py
 │   ├── __main__.py       # CLI entry point
@@ -73,7 +73,7 @@ pytest tests/
 
 ## 🐛 Reporting Bugs
 
-Found a bug? Please [open an issue](https://github.com/Cloudmeru/mt5-mcp-ui/issues/new) with:
+Found a bug? Please [open an issue](https://github.com/Cloudmeru/MetaTrader 5 Financial Analyst/issues/new) with:
 
 - **Description**: What happened vs. what you expected
 - **Steps to reproduce**: Minimal steps to trigger the bug
@@ -82,7 +82,7 @@ Found a bug? Please [open an issue](https://github.com/Cloudmeru/mt5-mcp-ui/issu
 
 ## 💡 Feature Requests
 
-Have an idea? [Open a feature request](https://github.com/Cloudmeru/mt5-mcp-ui/issues/new) describing:
+Have an idea? [Open a feature request](https://github.com/Cloudmeru/MetaTrader 5 Financial Analyst/issues/new) describing:
 
 - **Use case**: What problem does it solve?
 - **Proposed solution**: How should it work?
@@ -152,9 +152,10 @@ We loosely follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ## 📧 Questions?
 
-- Open a [GitHub Discussion](https://github.com/Cloudmeru/mt5-mcp-ui/discussions)
-- Check existing [Issues](https://github.com/Cloudmeru/mt5-mcp-ui/issues)
+- Open a [GitHub Discussion](https://github.com/Cloudmeru/MetaTrader 5 Financial Analyst/discussions)
+- Check existing [Issues](https://github.com/Cloudmeru/MetaTrader 5 Financial Analyst/issues)
 
 ---
 
 Thank you for contributing! 🎉
+

@@ -1,10 +1,11 @@
 """
-MCP Chat Assistant - Main Entry Point
+MetaTrader 5 Financial Analyst - Main Entry Point
 
 Usage:
-    python -m mt5_mcp_ui [--port PORT] [--share]
+    python -m mt5_mcp_ui [--mode MODE] [--port PORT] [--share]
 
-A simple AI chatbot that connects to MCP servers and uses available tools.
+Professional AI-powered financial analyst that connects to MetaTrader 5
+via MCP protocol for advanced market analysis and forecasting.
 """
 
 import argparse
@@ -40,7 +41,7 @@ def main():
         return "production" if prod_env else "development"
 
     parser = argparse.ArgumentParser(
-        description="MCP Chat Assistant - AI chatbot with MCP tool access",
+        description="MetaTrader 5 Financial Analyst - AI-powered market analysis via MCP",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Environment Variables:

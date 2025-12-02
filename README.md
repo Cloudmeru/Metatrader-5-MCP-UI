@@ -1,8 +1,8 @@
 ---
-title: MT5 Trading Assistant
-emoji: 📈
-colorFrom: blue
-colorTo: green
+title: MetaTrader 5 Financial Analyst
+emoji: 📊
+colorFrom: indigo
+colorTo: purple
 sdk: gradio
 sdk_version: "6.0.1"
 app_file: src/mt5_mcp_ui/app.py
@@ -12,27 +12,31 @@ tags:
   - mcp
   - building-mcp-track-consumer
   - mcp-in-action-track-consumer
-  - trading
+  - financial-analysis
   - metatrader5
-  - agents
+  - mt5
+  - ai-analyst
   - gradio-6
   - technical-analysis
   - forecasting
   - prophet
   - xgboost
-  - ai-assistant
+  - market-data
 ---
 
-# 🤖 MT5 Trading Assistant
+# 📊 MetaTrader 5 Financial Analyst
 
+[![Main Project](https://img.shields.io/badge/Main%20Project-MetaTrader%205%20MCP%20Server-purple)](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server)
 [![PyPI](https://img.shields.io/pypi/v/mt5-mcp)](https://pypi.org/project/mt5-mcp/)
-[![HuggingFace Space](https://img.shields.io/badge/🤗%20Space-mt5--mcp--ui-blue)](https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui)
+[![HuggingFace Space](https://img.shields.io/badge/🤗%20Space-mt5--mcp--ui-indigo)](https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui)
 [![MCP Hackathon](https://img.shields.io/badge/🏆%20MCP-1st%20Birthday-gold)](https://huggingface.co/MCP-1st-Birthday)
-[![License](https://img.shields.io/github/license/Cloudmeru/mt5-mcp-ui)](LICENSE)
+[![License](https://img.shields.io/github/license/Cloudmeru/Metatrader-5-MCP-UI)](LICENSE)
 
 > **🏆 MCP's 1st Birthday Hackathon Submission** - Hosted by Anthropic and Gradio
+> 
+> **⚠️ POC UI** - This is a proof-of-concept interface for **[MetaTrader 5 MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server)** (main project)
 
-AI-powered trading assistant that bridges LLMs to MetaTrader 5 via the Model Context Protocol (MCP). Built with Gradio 6 for real-time market analysis, technical indicators, and ML-based forecasting.
+Professional AI-powered financial analyst UI demonstrating MCP protocol integration with MetaTrader 5. This Gradio-based client showcases how to connect LLMs to the production-ready [MetaTrader 5 MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server) for advanced market analysis.
 
 ---
 
@@ -58,57 +62,118 @@ AI-powered trading assistant that bridges LLMs to MetaTrader 5 via the Model Con
 
 | Feature | Description |
 |---------|-------------|
-| 💬 **Agentic Chat** | AI assistant with tool calling and thought visualization |
-| 🔌 **MCP Server** | Expose MT5 tools to Claude Desktop, Cursor, VS Code Copilot |
-| 📊 **80+ Indicators** | RSI, MACD, Bollinger Bands, ATR, SMA, EMA, and more |
-| 🔮 **ML Forecasting** | Prophet time-series prediction + XGBoost trading signals |
-| 📈 **Real-time Charts** | Interactive candlestick charts with indicator overlays |
-| 🔒 **Read-Only** | Safe market analysis without trade execution |
-| 🧪 **Demo Mode** | Launch with `--mode demo` to keep Settings tab read-only while still testing connections |
-| 🌐 **Dual Mode** | Run locally with MT5, or connect to remote MCP server |
+| 💬 **AI-Powered Analysis** | Intelligent financial analyst with reasoning and tool orchestration |
+| 🔌 **MCP Integration** | Expose MetaTrader 5 tools to Claude Desktop, Cursor, VS Code Copilot |
+| 📊 **80+ Indicators** | Professional technical analysis: RSI, MACD, Bollinger Bands, ATR, SMA, EMA, and more |
+| 🔮 **ML Forecasting** | Prophet time-series modeling + XGBoost predictive signals |
+| 📈 **Real-time Charts** | Interactive multi-panel visualizations with indicator overlays |
+| 🔒 **Safe Analysis** | Read-only market analysis without trade execution risk |
+| 🧪 **Flexible Modes** | Development, production, or demo deployment configurations |
+| 🌐 **Dual Architecture** | Run locally with MetaTrader 5, or connect to remote MCP server |
 
 ---
 
-## 📖 How It Works
+## 🔗 Main Project
+
+**👉 For production use, visit: [MetaTrader 5 MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server)**
+
+The main project provides:
+- ✅ Full Gradio 6 MCP server implementation (`/gradio_api/mcp/` endpoint)
+- ✅ Dual transport: stdio (Claude Desktop, VS Code) + HTTP/SSE (web clients)
+- ✅ 80+ technical indicators, Prophet forecasting, XGBoost ML signals
+- ✅ Production-ready: rate limiting, thread safety, comprehensive error handling
+- ✅ Deployable to HuggingFace Spaces, Windows VPS, or local
+
+**Testing Endpoints:**
+- 🌐 **Web UI**: [https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/](https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/)
+- 🔌 **MCP API**: `https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp`
+
+---
+
+## 📖 Architecture
 
 ```mermaid
-flowchart LR
-  user_node["User (Chat)"] <-->|"Requests & Responses"| ui_node["Gradio UI"]
-  ui_node -->|"Tool calls"| mcp_server_node["MCP Server (mt5-mcp)"]
-  mcp_server_node -->|"Bridges to"| mt5_node["MetaTrader 5"]
+graph TB
+    A[User] -->|Natural Language| B[MetaTrader 5 Financial Analyst<br/><b>THIS UI - POC CLIENT</b>]
+    B -->|HTTP/SSE<br/>MCP Protocol| C[<b>MetaTrader 5 MCP Server</b><br/>MAIN PROJECT<br/>github.com/Cloudmeru/MetaTrader-5-MCP-Server]
+    C -->|MT5 Python API| D[MetaTrader 5 Terminal]
+    D -->|Real-time Market Data| C
+    C -->|MCP Response<br/>80+ Indicators, Forecasts| B
+    B -->|AI Analysis & Insights| A
+    
+    style B fill:#e3d5ff,stroke:#9333ea,stroke-width:3px
+    style C fill:#dbeafe,stroke:#2563eb,stroke-width:4px
+    style D fill:#dcfce7,stroke:#16a34a,stroke-width:2px
+    
+    click C "https://github.com/Cloudmeru/MetaTrader-5-MCP-Server" "Visit Main Project"
 ```
 
-**Workflow:**
-1. User asks about market analysis in chat
-2. LLM agent decides which MT5 tools to use
-3. Tools fetch real-time data from MetaTrader 5
-4. Results visualized with charts and insights
+**Component Roles:**
+1. **This UI (POC)**: Gradio-based demonstration client showing MCP protocol integration
+2. **[Main MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server)**: Production Gradio 6 server with full MCP endpoint at `/gradio_api/mcp/`
+3. **MetaTrader 5**: Live market data source and trading platform
+
+**Analysis Workflow:**
+1. User requests financial analysis in natural language (this UI)
+2. UI sends MCP request to main server via HTTP/SSE
+3. Main server queries MetaTrader 5 and processes data (80+ indicators, forecasts)
+4. Professional visualizations and insights delivered
 
 ---
 
-## 🚀 Try It
+## 🚀 Quick Start
 
-### Example Prompts
+### Option 1: Testing Server (No MT5 Required)
+
+```bash
+pip install mt5-mcp-ui
+
+# Create .env with testing endpoint
+cat > .env << EOF
+MCP_SERVER_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp
+OPENAI_API_KEY=your-key-here
+EOF
+
+python -m mt5_mcp_ui
+```
+
+### Option 2: Local MCP Server
+
+First install the [main server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server), then:
+
+```bash
+# Terminal 1: Start main MCP server
+python -m mt5_mcp --transport http --port 7860
+
+# Terminal 2: Start this UI
+pip install mt5-mcp-ui
+echo "MCP_SERVER_URL=http://localhost:7860/gradio_api/mcp" > .env
+python -m mt5_mcp_ui
+```
+
+### Example Analysis Requests
 
 ```
-"What's the current price of EURUSD?"
-"Analyze BTCUSD with RSI and MACD indicators"
-"Give me a 24-hour forecast for XAUUSD with chart"
-"Show me technical analysis of gold (XAUUSD) on H4 timeframe"
+"Provide current market quote for EUR/USD"
+"Perform technical analysis on BTC/USD using RSI and MACD indicators"
+"Generate 24-hour price forecast for gold (XAU/USD) with visualization"
+"Analyze gold market on 4-hour timeframe with key technical levels"
+"Compare moving averages for EUR/USD across multiple timeframes"
+"Identify trading signals for S&P 500 futures using multiple indicators"
 ```
 
 ---
 
-## 🏗️ Architecture
+## 🏭 Architecture
 
-MT5 MCP UI operates in two modes:
+MetaTrader 5 Financial Analyst operates in two deployment modes:
 
 ```mermaid
 flowchart LR
   subgraph mode_selection[Mode Selection]
     direction LR
     app_mode["APP MODE<br/>(UI + MCP Client)<br/><br/>• Cloud deployment<br/>• HuggingFace Spaces<br/>• Linux/macOS<br/>• Connects to remote MCP"]
-    mcp_mode["MCP MODE<br/>(Full Stack Server)<br/><br/>• Windows only<br/>• Local MT5 connection<br/>• Exposes MCP endpoint<br/>• Claude Desktop ready"]
+    mcp_mode["MCP MODE<br/>(Full Stack Server)<br/><br/>• Windows only<br/>• Local MetaTrader 5 connection<br/>• Exposes MCP endpoint<br/>• Claude Desktop ready"]
   end
   classDef default fill:#0f172a,stroke:#94a3b8,color:#f8fafc;
   classDef mode_selection fill:#020617,stroke:#0f172a,color:#f8fafc;
@@ -140,7 +205,7 @@ flowchart LR
 
 ### Option 1: HuggingFace Space (Easiest)
 
-Visit the live demo: [**MT5 Trading Assistant**](https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui)
+Visit the live demo: [**MetaTrader 5 Financial Analyst**](https://huggingface.co/spaces/MCP-1st-Birthday/mt5-mcp-ui)
 
 ### Option 2: Local Windows Installation (Full Access or Demo)
 
@@ -245,33 +310,33 @@ Options:
 
 ---
 
-## 🔧 MCP Tools Available
+## 🔧 Professional Analysis Tools
 
-When running in MCP mode, these tools are exposed at the MCP endpoint:
+When running in MCP mode, these financial analysis tools are exposed:
 
 | Tool | Description | Example Query |
 |------|-------------|---------------|
-| `mt5_query` | Query symbol info, OHLC rates, account data | "Get EURUSD current price" |
-| `mt5_analyze` | Technical analysis with 80+ indicators | "Show RSI and MACD for BTCUSD H1" |
-| `execute_mt5` | Execute custom Python code against MT5 | "Get the last 100 candles" |
+| `mt5_query` | Real-time market data, quotes, and account information | "Retrieve EUR/USD current market quote" |
+| `mt5_analyze` | Advanced technical analysis with 80+ indicators | "Analyze BTC/USD with RSI and MACD on H1" |
+| `execute_mt5` | Custom analysis scripts for MetaTrader 5 | "Calculate volatility for the last 100 periods" |
 
-### Tool Features
+### Analysis Capabilities
 
-- **80+ Technical Indicators**: RSI, MACD, Bollinger Bands, ATR, SMA, EMA, Stochastic, ADX, and more
-- **Prophet Forecasting**: Time-series prediction with confidence intervals
-- **XGBoost ML Signals**: AI-powered BUY/SELL/HOLD recommendations
-- **Multi-Panel Charts**: Generated automatically with clickable file links
+- **80+ Technical Indicators**: Professional-grade analysis including RSI, MACD, Bollinger Bands, ATR, SMA, EMA, Stochastic, ADX, and more
+- **Prophet Forecasting**: Statistical time-series modeling with confidence intervals
+- **XGBoost Predictions**: Machine learning-driven market signals with confidence scores
+- **Multi-Panel Visualizations**: Automatically generated professional charts with file links
 
 ---
 
 ## 🔌 Claude Desktop Integration
 
-Add to your Claude Desktop config (`claude_desktop_config.json`):
+Add MetaTrader 5 Financial Analyst to your Claude Desktop config (`claude_desktop_config.json`):
 
 ```json
 {
   "mcpServers": {
-    "mt5-trading": {
+    "mt5-financial-analyst": {
       "command": "python",
       "args": ["-m", "mt5_mcp_ui", "--mode", "mcp"],
       "env": {
@@ -282,12 +347,12 @@ Add to your Claude Desktop config (`claude_desktop_config.json`):
 }
 ```
 
-Or connect to a running server:
+Or connect to a running analysis server:
 
 ```json
 {
   "mcpServers": {
-    "mt5-trading": {
+    "mt5-financial-analyst": {
       "url": "http://localhost:7860/gradio_api/mcp/sse"
     }
   }
@@ -296,7 +361,7 @@ Or connect to a running server:
 
 ---
 
-## 🤖 Supported LLM Providers
+## 🤖 AI Model Providers
 
 | Provider | Models | Notes |
 |----------|--------|-------|
@@ -398,4 +463,4 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 
-*Built with ❤️ for [MCP's 1st Birthday Hackathon](https://huggingface.co/MCP-1st-Birthday) - November 2025*
+*Professional financial analysis powered by AI • Built for [MCP's 1st Birthday Hackathon](https://huggingface.co/MCP-1st-Birthday) - November 2025*

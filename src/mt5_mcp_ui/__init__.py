@@ -1,14 +1,18 @@
 """
-MCP Chat Assistant - AI chatbot with MCP tool access
+MetaTrader 5 Financial Analyst - AI-Powered Market Analysis
 
-A simple Gradio chatbot that connects to any MCP server via SSE
-and provides LLM-powered conversations with tool calling.
+Professional financial analysis interface connecting AI models to MetaTrader 5
+via the Model Context Protocol (MCP). Provides advanced technical analysis,
+forecasting, and market insights.
 
-Supported LLM Providers:
-    - OpenAI (GPT-4o, GPT-4o-mini)
-    - Azure OpenAI
-    - Ollama (local)
-    - Any OpenAI-compatible API
+Supported AI Model Providers:
+    - OpenAI (GPT-4o, GPT-4o-mini, o1)
+    - Anthropic (Claude 3.5 Sonnet, Claude 3 Opus)
+    - Google (Gemini 2.5 Pro, Gemini 2.5 Flash)
+    - Azure OpenAI, Azure AI Foundry
+    - xAI, GitHub Models, OpenRouter
+    - Ollama (local models)
+    - HuggingFace Inference API
 """
 
 __version__ = "0.3.0"

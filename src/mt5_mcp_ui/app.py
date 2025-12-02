@@ -1,12 +1,12 @@
 """
-MCP Chat Assistant - Simple Chatbot with MCP Tools
+MetaTrader 5 Financial Analyst - AI-Powered Market Analysis
 
-A clean Gradio ChatInterface that:
-- Connects to any MCP server via Streamable HTTP or SSE
-- Provides LLM-powered chat with tool calling
-- Displays tool usage in collapsible thoughts
-- Supports multiple LLM providers (OpenAI, Anthropic, Ollama, etc.)
-- Modern chat interface with file/image attachments
+A professional Gradio interface that:
+- Connects to MetaTrader 5 via MCP protocol (Streamable HTTP or SSE)
+- Provides AI-powered financial analysis with intelligent tool orchestration
+- Displays analysis workflow with transparent reasoning
+- Supports multiple AI model providers (OpenAI, Anthropic, Google, Azure, and more)
+- Modern chat interface with professional visualizations
 """
 
 import asyncio
@@ -224,15 +224,22 @@ class Config:
         # System prompt
         self.system_prompt = os.getenv(
             "SYSTEM_PROMPT",
-            """You are a helpful AI assistant with access to MCP tools for market data analysis.
+            """You are a professional financial analyst with access to MetaTrader 5 market data tools via the MCP protocol.
 
-When the user asks about market data, trading, or technical analysis, use the available tools.
-Always analyze the REAL data returned from tools - never make up values.
-Be conversational and helpful for general questions too.
+Your role is to provide expert-level market analysis, technical insights, and data-driven recommendations.
 
-## Tool Usage Guidelines:
+When users request financial analysis, market data, or technical studies:
+- Use available MetaTrader 5 tools to retrieve real-time data
+- Perform rigorous analysis using appropriate technical indicators
+- Present findings with professional clarity and precision
+- Always base conclusions on actual data - never fabricate values or analysis
+- Explain your analytical approach and reasoning transparently
 
-### mt5_query_tool - For simple data queries
+Maintain a professional yet approachable tone. You are an expert analyst, not a trading advisor.
+
+## MetaTrader 5 Analysis Tools:
+
+### mt5_query_tool - For market data retrieval
 ⚠️ **CRITICAL: ALL THREE PARAMETERS ARE REQUIRED - NEVER OMIT ANY!**
 
 Required parameters:
@@ -253,7 +260,7 @@ Required parameters:
 {"operation": "symbol_info_tick", "symbol": "BTCUSD"}  // WILL FAIL!
 ```
 
-### mt5_analyze_tool - For analysis with indicators and charts (PREFERRED)
+### mt5_analyze_tool - For professional technical analysis (PREFERRED)
 - `query_symbol`: Trading symbol (e.g., "BTCUSD")
 - `query_parameters`: JSON string like {"timeframe": "H1", "count": 168}
 - `indicators`: JSON array of indicators
@@ -289,7 +296,7 @@ Example for RSI analysis:
   "chart_panels": "[{\\"columns\\": [\\"close\\"]}, {\\"columns\\": [\\"rsi_14\\"], \\"reference_lines\\": [30, 70]}]"
 }
 
-IMPORTANT: Use mt5_analyze_tool for most requests as it provides richer analysis with indicators and charts.""",
+IMPORTANT: Prefer mt5_analyze_tool for comprehensive analysis as it provides professional-grade technical indicators, forecasting, and visualizations.""",
         )
 
 
@@ -1143,7 +1150,7 @@ def create_app() -> gr.Blocks:
     config = get_config()
 
     with gr.Blocks(
-        title="MT5 Trading Assistant",
+        title="MetaTrader 5 Financial Analyst",
     ) as demo:
 
         with gr.Tabs():
@@ -1152,8 +1159,8 @@ def create_app() -> gr.Blocks:
                 gr.Markdown(
                     """
                     <div style="text-align: center; padding: 20px 0;">
-                    <h1>🤖 MT5 Trading Assistant</h1>
-                    <h3>AI-Powered Trading Analysis via Model Context Protocol (MCP)</h3>
+                    <h1>📊 MetaTrader 5 Financial Analyst</h1>
+                    <h3>Professional AI-Powered Market Analysis via Model Context Protocol</h3>
                     </div>
                     """
                 )
@@ -1169,14 +1176,14 @@ def create_app() -> gr.Blocks:
 
                             ### What is this?
 
-                            MT5 Trading Assistant bridges **AI language models** to **MetaTrader 5** trading platform
-                            using the **Model Context Protocol (MCP)**. It enables traders to:
+                            MetaTrader 5 Financial Analyst connects **AI language models** to the **MetaTrader 5** platform
+                            using the **Model Context Protocol (MCP)**. Professional capabilities include:
 
-                            - 💬 Chat naturally about market analysis
-                            - 📊 Access 80+ technical indicators (RSI, MACD, Bollinger Bands...)
-                            - 🔮 Get Prophet time-series forecasts with confidence intervals
-                            - 🤖 Receive XGBoost ML-powered BUY/SELL/HOLD signals
-                            - 📈 Generate multi-panel charts with technical overlays
+                            - 💬 Natural language financial analysis requests
+                            - 📊 80+ professional technical indicators (RSI, MACD, Bollinger Bands, ATR...)
+                            - 🔮 Statistical forecasting with Prophet confidence intervals
+                            - 🤖 XGBoost machine learning predictive signals with confidence scores
+                            - 📈 Multi-panel professional visualizations with technical overlays
 
                             ### 🔗 Project Links
 
@@ -1189,11 +1196,11 @@ def create_app() -> gr.Blocks:
 
                             ### 🛠️ Built With
 
-                            - **Gradio 6** - Modern UI framework with MCP server support
-                            - **MCP Protocol** - Standardized LLM-to-tool communication
-                            - **Prophet** - Facebook's time-series forecasting
-                            - **XGBoost** - Machine learning for trading signals
-                            - **TA Library** - 80+ technical analysis indicators
+                            - **Gradio 6** - Professional UI framework with native MCP server support
+                            - **MCP Protocol** - Standardized AI-to-platform communication
+                            - **Prophet** - Statistical time-series forecasting (Meta/Facebook)
+                            - **XGBoost** - Advanced machine learning for predictive analytics
+                            - **TA Library** - 80+ institutional-grade technical indicators
                             """
                         )
 
@@ -1238,10 +1245,10 @@ def create_app() -> gr.Blocks:
 
                     ### Try it Now (This Space)
 
-                    1. Go to the **💬 Chat** tab
-                    2. Ask: *"What's the current price of EURUSD?"*
-                    3. Ask: *"Analyze BTCUSD with RSI and MACD indicators"*
-                    4. Ask: *"Give me a 24-hour forecast for XAUUSD"*
+                    1. Go to the **💬 Analysis** tab
+                    2. Request: *"Provide current market quote for EUR/USD"*
+                    3. Request: *"Perform technical analysis on BTC/USD using RSI and MACD"*
+                    4. Request: *"Generate 24-hour forecast for gold (XAU/USD) with chart"*
 
                     ### Run Locally
 
@@ -1277,12 +1284,12 @@ def create_app() -> gr.Blocks:
                     """
                 )
 
-            # Chat Tab - Multimodal Interface
-            with gr.Tab("💬 Chat"):
+            # Analysis Tab - Multimodal Interface
+            with gr.Tab("💬 Analysis"):
                 chatbot = gr.Chatbot(
                     value=[],  # Initialize with empty list
                     height=500,
-                    placeholder="<center><h3>👋 Hello!</h3><p>I'm your AI assistant with MCP tool access.</p><p>Send a message or upload files to get started!</p></center>",
+                    placeholder="<center><h3>📊 Welcome to MetaTrader 5 Financial Analyst</h3><p>Professional AI-powered market analysis at your service.</p><p>Send your analysis request or upload files to begin.</p></center>",
                     editable="user",  # Allow editing user messages
                 )
 
@@ -1290,7 +1297,7 @@ def create_app() -> gr.Blocks:
                 chat_input = gr.MultimodalTextbox(
                     interactive=True,
                     file_count="multiple",
-                    placeholder="Type a message or upload files... (images, documents, code)",
+                    placeholder="Enter your analysis request or upload supporting materials...",
                     show_label=False,
                     sources=["upload"],
                 )
@@ -1302,10 +1309,10 @@ def create_app() -> gr.Blocks:
 
                 gr.Examples(
                     examples=[
-                        {"text": "What tools are available?"},
-                        {"text": "Get the current price of BTCUSD"},
-                        {"text": "Analyze EURUSD with RSI indicator"},
-                        {"text": "Give me a forecast for XAUUSD"},
+                        {"text": "What analysis capabilities do you offer?"},
+                        {"text": "Retrieve current market quote for BTC/USD"},
+                        {"text": "Perform technical analysis on EUR/USD with RSI and MACD"},
+                        {"text": "Generate price forecast for gold (XAU/USD) with confidence intervals"},
                     ],
                     inputs=chat_input,
                 )
@@ -1779,10 +1786,10 @@ def create_app() -> gr.Blocks:
                 """
                 ---
                 <div style="text-align: center; color: #666; font-size: 0.9em;">
-                🤖 <b>MT5 Trading Assistant</b> |
-                <a href="https://github.com/Cloudmeru/MetaTrader-5-MCP-Server">GitHub</a> |
-                <a href="https://pypi.org/project/mt5-mcp/">PyPI</a> |
-                Built for <a href="https://huggingface.co/MCP-1st-Birthday">MCP's 1st Birthday Hackathon</a>
+                📊 <b>MetaTrader 5 Financial Analyst</b> |
+                <a href="https://github.com/Cloudmeru/Metatrader-5-MCP-UI">GitHub</a> |
+                <a href="https://pypi.org/project/mt5-mcp-ui/">PyPI</a> |
+                Professional Analysis • Built for <a href="https://huggingface.co/MCP-1st-Birthday">MCP's 1st Birthday Hackathon</a>
                 </div>
                 """
             )
@@ -1790,11 +1797,11 @@ def create_app() -> gr.Blocks:
             gr.Markdown(
                 """
                 ---
-                💡 **Tips:**
-                - Configure MCP server URL and transport in Settings
-                - Supports both **SSE** and **Streamable HTTP** transports
-                - Attach images, PDFs, or code files to include in your message
-                - Tool results are shown inline in chat
+                💡 **Professional Tips:**
+                - Configure MetaTrader 5 MCP server connection in Settings
+                - Supports both **SSE** and **Streamable HTTP** protocols
+                - Attach supporting documents or data files with your analysis requests
+                - Analysis results and visualizations appear inline in chat
                 """
             )
 
@@ -1810,7 +1817,7 @@ def main():
     """Run the application."""
     import argparse
 
-    parser = argparse.ArgumentParser(description="MCP Chat Assistant")
+    parser = argparse.ArgumentParser(description="MetaTrader 5 Financial Analyst")
     parser.add_argument("--port", type=int, default=7860, help="Port to run on")
     parser.add_argument(
         "--share", action="store_true", help="Create public link via Gradio"
@@ -1839,12 +1846,12 @@ def main():
 
     print()
     print("=" * 60)
-    print("🤖 MT5 Trading Assistant")
+    print("📊 MetaTrader 5 Financial Analyst")
     print("=" * 60)
     config = get_config()
     print(f"📡 MCP Server: {config.mcp_url}")
     print(f"🔌 Transport: {config.mcp_transport}")
-    print(f"🧠 LLM: {config.llm_provider} / {config.llm_model}")
+    print(f"🧠 AI Model: {config.llm_provider} / {config.llm_model}")
     print(f"🌐 Port: {args.port}")
     if args.host != "127.0.0.1":
         print(f"🌍 Host: {args.host}")
