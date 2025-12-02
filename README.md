@@ -164,40 +164,26 @@ python -m mt5_mcp_ui
 
 ---
 
-## 🏭 Architecture
+## 🏭 Deployment Options
 
-MetaTrader 5 Financial Analyst operates in two deployment modes:
-
-```mermaid
-flowchart LR
-  subgraph mode_selection[Mode Selection]
-    direction LR
-    app_mode["APP MODE<br/>(UI + MCP Client)<br/><br/>• Cloud deployment<br/>• HuggingFace Spaces<br/>• Linux/macOS<br/>• Connects to remote MCP"]
-    mcp_mode["MCP MODE<br/>(Full Stack Server)<br/><br/>• Windows only<br/>• Local MetaTrader 5 connection<br/>• Exposes MCP endpoint<br/>• Claude Desktop ready"]
-  end
-  classDef default fill:#0f172a,stroke:#94a3b8,color:#f8fafc;
-  classDef mode_selection fill:#020617,stroke:#0f172a,color:#f8fafc;
-```
-
-### MCP Mode (Windows)
+**This is a UI client only** - it connects to the [MetaTrader 5 MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server) for data:
 
 ```mermaid
-flowchart LR
-  user([User]) --> ui[Gradio UI]
-  ui --> local_mcp["Local mt5-mcp"]
-  local_mcp --> mt5[MetaTrader 5]
-  local_mcp --> endpoint["MCP Endpoint<br/>(Claude Desktop, etc.)<br/>• http://localhost:7860/gradio_api/mcp/sse"]
+graph TB
+    A[User] -->|Interact| B[This UI - MCP Client]
+    B -->|MCP Protocol<br/>HTTP/SSE| C[MetaTrader 5 MCP Server<br/>Main Project]
+    C -->|Query Data| D[MetaTrader 5 Terminal]
+    
+    style B fill:#e3d5ff,stroke:#9333ea,stroke-width:3px,stroke-dasharray: 5 5
+    style C fill:#dbeafe,stroke:#2563eb,stroke-width:4px
+    style D fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 ```
 
-### App Mode (Any Platform)
+**Deployment Scenarios:**
 
-```mermaid
-flowchart LR
-  user_app([User]) --> ui_app[Gradio UI]
-  ui_app --> mcp_client[MCP Client]
-  mcp_client --> remote_server[Remote MCP Server]
-  remote_server --> windows_mt5["Windows + MT5"]
-```
+1. **Testing Server** (Recommended): Connect to `https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp`
+2. **Local Setup**: Run [main MCP server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server) locally, then connect this UI to it
+3. **HuggingFace Space**: Deploy this UI to HF Spaces, configure MCP server URL in secrets
 
 ---
 
@@ -221,14 +207,10 @@ python -m mt5_mcp_ui --mode development
 # Or launch the kiosk-style demo experience (Settings locked but tests work)
 python -m mt5_mcp_ui --mode demo
 
-# The app auto-detects Windows + mt5-mcp for tool execution
+# This UI connects to the main MCP server
 ```
 
-**MCP Endpoints (for Claude Desktop, etc.):**
-- Streamable HTTP: `http://localhost:7860/gradio_api/mcp/`
-- SSE: `http://localhost:7860/gradio_api/mcp/sse`
-
-### Option 3: Remote MCP (Any Platform)
+### Option 3: Connect to Remote MCP Server
 
 ```bash
 # Linux/macOS/Cloud - connects to remote MCP server
@@ -264,7 +246,8 @@ APP_MODE=development
 # Legacy flag still supported for production deployments
 PRODUCTION_MODE=false
 
-# MCP Server URL (used when acting as MCP client)
+# MCP Server URL (REQUIRED - this UI is a client only)
+# Point to the main MetaTrader 5 MCP Server
 MCP_URL=http://localhost:7860/gradio_api/mcp/sse
 MCP_TRANSPORT=streamable_http
 
@@ -312,7 +295,9 @@ Options:
 
 ## 🔧 Professional Analysis Tools
 
-When running in MCP mode, these financial analysis tools are exposed:
+**Available via the [main MCP server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server):**
+
+This UI accesses these tools from the connected MCP server:
 
 | Tool | Description | Example Query |
 |------|-------------|---------------|
@@ -320,7 +305,7 @@ When running in MCP mode, these financial analysis tools are exposed:
 | `mt5_analyze` | Advanced technical analysis with 80+ indicators | "Analyze BTC/USD with RSI and MACD on H1" |
 | `execute_mt5` | Custom analysis scripts for MetaTrader 5 | "Calculate volatility for the last 100 periods" |
 
-### Analysis Capabilities
+### Analysis Capabilities (from MCP Server)
 
 - **80+ Technical Indicators**: Professional-grade analysis including RSI, MACD, Bollinger Bands, ATR, SMA, EMA, Stochastic, ADX, and more
 - **Prophet Forecasting**: Statistical time-series modeling with confidence intervals
@@ -331,14 +316,16 @@ When running in MCP mode, these financial analysis tools are exposed:
 
 ## 🔌 Claude Desktop Integration
 
-Add MetaTrader 5 Financial Analyst to your Claude Desktop config (`claude_desktop_config.json`):
+**Note:** This UI is not an MCP server. For Claude Desktop, use the [main MetaTrader 5 MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server).
+
+Add the main MCP server to your Claude Desktop config (`claude_desktop_config.json`):
 
 ```json
 {
   "mcpServers": {
     "mt5-financial-analyst": {
       "command": "python",
-      "args": ["-m", "mt5_mcp_ui", "--mode", "mcp"],
+      "args": ["-m", "mt5_mcp", "--transport", "http"],
       "env": {
         "PYTHONPATH": "."
       }
@@ -347,13 +334,13 @@ Add MetaTrader 5 Financial Analyst to your Claude Desktop config (`claude_deskto
 }
 ```
 
-Or connect to a running analysis server:
+Or connect to the testing server:
 
 ```json
 {
   "mcpServers": {
     "mt5-financial-analyst": {
-      "url": "http://localhost:7860/gradio_api/mcp/sse"
+      "url": "https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp"
     }
   }
 }

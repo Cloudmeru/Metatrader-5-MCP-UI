@@ -26,95 +26,84 @@
 ## 1. Project Overview
 
 **Name:** `MetaTrader 5 Financial Analyst`  
-**Purpose:** AI-powered financial analyst that bridges LLMs to MetaTrader 5 via the MCP protocol, built with Gradio 6 for the MCP 1st Birthday Hackathon.
+**Purpose:** POC UI client demonstrating MCP protocol integration with [MetaTrader 5 MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server), built with Gradio 6 for the MCP 1st Birthday Hackathon.
+
+**Project Role:** UI client only - connects to the main [MetaTrader 5 MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server) for all MT5 data and analysis.
 
 **Hackathon Tracks:**
-- 🔧 **Track 1: Building MCP** - `building-mcp-track-consumer` (MCP server for retail traders)
-- 🤖 **Track 2: MCP in Action** - `mcp-in-action-track-consumer` (Agentic financial analyst)
+- 🔧 **Track 1: Building MCP** - `building-mcp-track-consumer` (Demonstrates MCP client integration)
+- 🤖 **Track 2: MCP in Action** - `mcp-in-action-track-consumer` (Agentic financial analyst UI)
 
 **Key Features:**
 - 💬 Chat-based financial analyst UI (Gradio 6 Blocks + ChatInterface)
-- 🔌 Native MCP Server integration (`mcp_server=True`)
+- 🔌 MCP Client integration (connects to remote MCP server)
 - 🤖 Autonomous agent behavior with tool calling (planning, reasoning, execution)
-- 📊 Real-time MT5 data visualization & technical analysis
-- 🔮 Prophet forecasting + XGBoost ML signals display
-- 🎯 80+ technical indicators via ta library
-- 🔒 Read-only & safe (no trading execution)
+- 📊 Real-time MT5 data visualization via MCP server
+- 🔮 Prophet forecasting + XGBoost ML signals display from MCP server
+- 🎯 80+ technical indicators accessed via MCP protocol
+- 🔒 Read-only & safe (enforced by MCP server)
 
 ---
 
-## 2. Architecture Modes
+## 2. Architecture
 
-MetaTrader 5 Financial Analyst operates in two infrastructure topologies:
+**This is a UI client only** - it does NOT function as an MCP server.
 
-### 2.1 App Mode (Client Only)
-
-UI-only mode that connects to a remote MCP server for MT5 data access.
+### 2.1 System Architecture
 
 ```mermaid
-flowchart LR
-  subgraph cloud["Cloud / HuggingFace / Linux / macOS"]
-    gradio_app["MetaTrader 5 Financial Analyst (App Mode)<br/>Gradio UI"]
-    gradio_app --> mcp_client_app["MCP Client"]
-  end
-  subgraph windows_server["Windows PC with MT5"]
-    toolproxy_server["ToolProxy"]
-    toolproxy_server --> mt5mcp_server["mt5-mcp"]
-    mt5mcp_server --> mt5_terminal_server["MetaTrader 5"]
-  end
-  mcp_client_app <-->|"SSE or Streamable HTTP"| toolproxy_server
+graph TB
+    A[User] -->|Natural Language| B[This UI<br/>MetaTrader 5 Financial Analyst<br/>MCP Client Only]
+    B -->|HTTP/SSE<br/>MCP Protocol| C[MetaTrader 5 MCP Server<br/>Main Project<br/>github.com/Cloudmeru/MetaTrader-5-MCP-Server]
+    C -->|MT5 Python API| D[MetaTrader 5 Terminal<br/>Windows]
+    D -->|Market Data| C
+    C -->|MCP Response<br/>Analysis Results| B
+    B -->|Formatted Results| A
+    
+    style B fill:#e3d5ff,stroke:#9333ea,stroke-width:3px,stroke-dasharray: 5 5
+    style C fill:#dbeafe,stroke:#2563eb,stroke-width:4px
+    style D fill:#dcfce7,stroke:#16a34a,stroke-width:2px
 ```
 
-**Use Cases:**
-- ✅ UI accessible from anywhere
-- ✅ Cloud deployment (HuggingFace Spaces, Docker)
-- ✅ Linux/macOS development
-- ✅ Scales to multiple users
+**Component Roles:**
+1. **This UI (POC Client)**: Gradio-based interface for user interaction and MCP client
+2. **[Main MCP Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server)**: Production Gradio 6 server with full MCP implementation
+3. **MetaTrader 5**: Source of live market data and historical trading data
 
-### 2.2 MCP Mode (Full Stack)
+### 2.2 Deployment Scenarios
 
-Full MCP server that exposes MT5 tools via the MCP protocol.
-
-```mermaid
-flowchart LR
-  subgraph windows_local["Windows PC with MT5"]
-    subgraph mcp_ui["MetaTrader 5 Financial Analyst (MCP Mode)"]
-      gradio_local["Gradio UI"]
-      toolproxy_local["ToolProxy"]
-      mt5mcp_local["mt5-mcp library"]
-      gradio_local <-->|"Local APIs"| toolproxy_local
-      toolproxy_local <-->|"Direct calls"| mt5mcp_local
-      mt5mcp_local --> terminal_local["MetaTrader 5 Terminal"]
-      mt5mcp_local --> endpoint_local["MCP Endpoint<br/>/gradio_api/mcp/sse"]
-    end
-  end
-  endpoint_local --> clients_local["MCP Clients<br/>(Claude Desktop, etc.)"]
+**Scenario 1: Testing Server (Recommended)**
+```
+This UI → Testing MCP Server (ngrok)
+URL: https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp
 ```
 
-**Use Cases:**
-- ✅ Complete solution on a single machine
-- ✅ No network configuration needed
-- ✅ Ideal for personal trading/analysis
-- ✅ Exposes MCP endpoint for Claude Desktop, Cursor, VS Code
+**Scenario 2: Local Development**
+```
+This UI (any OS) → Local MCP Server (Windows) → MetaTrader 5
+```
 
-### 2.3 Environment Detection Logic
+**Scenario 3: Cloud Deployment**
+```
+This UI (HuggingFace/Cloud) → Remote MCP Server (Windows VPS) → MetaTrader 5
+```
+
+### 2.3 Configuration Flow
 
 ```mermaid
 flowchart TB
-  start([Start]) --> space_id{"SPACE_ID env exists?"}
-  space_id -->|Yes| huggingface_only["HuggingFace → App Mode Only"]
-  space_id -->|No| platform_check["platform.system()"]
-  platform_check --> windows{"Is Windows?"}
-  windows -->|No| linux_app["Linux/macOS → App Mode Only"]
-  windows -->|Yes| check_mt5["Check mt5-mcp availability"]
-  check_mt5 --> mt5_installed{"mt5-mcp installed?"}
-  mt5_installed -->|Yes| both_modes["Both modes available<br/>Default: MCP Mode"]
-  mt5_installed -->|No| app_only_win["App Mode Only"]
+  start([Start UI]) --> check_env["Check MCP_SERVER_URL<br/>environment variable"]
+  check_env --> has_url{"URL configured?"}
+  has_url -->|Yes| connect["Connect to<br/>MCP Server"]
+  has_url -->|No| use_default["Use default:<br/>Testing server"]
+  use_default --> connect
+  connect --> test["Test connection<br/>List available tools"]
+  test --> ready["UI Ready<br/>User can chat"]
 ```
 
 ---
 
-## 3. UI Mode Selection
+## 3. UI Presentation Modes
 
 The UI supports three presentation modes that control the Settings tab behavior:
 
@@ -123,6 +112,8 @@ The UI supports three presentation modes that control the Settings tab behavior:
 | **Development** | `--mode development` / `APP_MODE=development` | Settings tab fully editable (default) |
 | **Production** | `--mode production` / `PRODUCTION_MODE=true` | Settings tab hidden; environment variables only |
 | **Demo** | `--mode demo` / `APP_MODE=demo` | Settings tab visible but read-only; Test buttons active |
+
+**Note:** These modes control UI behavior only. This application is always an MCP client connecting to a remote server.
 
 ### Mode Selection Logic
 
@@ -142,7 +133,7 @@ python -m mt5_mcp_ui --mode production
 python -m mt5_mcp_ui --mode demo
 ```
 
-**Note:** UI modes are independent from infrastructure topology (App vs MCP mode).
+**Note:** UI presentation modes (development/production/demo) are independent from deployment topology. This application always operates as an MCP client.
 
 ---
 
@@ -232,39 +223,43 @@ class Config:
 
 ## 6. Deployment Scenarios
 
-### 6.1 Local Windows (MCP Mode)
+### 6.1 Testing Server (Recommended)
 
-**Complete solution on a single machine.**
+**Connect to the public testing MCP server - no MT5 installation required.**
 
 ```bash
-# Requirements: Windows + MT5 installed and logged in
-pip install MetaTrader 5 Financial Analyst
+pip install mt5-mcp-ui
 
-# Run with default settings
+# Create .env file
+cat > .env << EOF
+MCP_SERVER_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp
+OPENAI_API_KEY=your-key-here
+EOF
+
+# Run UI
 python -m mt5_mcp_ui
-
-# Run in production mode (hides settings)
-python -m mt5_mcp_ui --mode production
 ```
 
-**MCP Endpoints:**
-- SSE: `http://localhost:7860/gradio_api/mcp/sse`
-- Streamable HTTP: `http://localhost:7860/gradio_api/mcp/`
+### 6.2 Local Development Setup
 
-### 6.2 Split Deployment (App + MCP Server)
+**UI client connecting to local MCP server.**
 
-**UI on cloud/remote machine, MT5 on Windows.**
-
-**Windows Server Setup:**
+**Step 1: Install and run the [main MCP server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server) (Windows with MT5):**
 ```bash
 # On Windows with MT5
-python -m mt5_mcp_ui --mode production --host 0.0.0.0 --port 7860
+pip install "mt5-mcp[ui]"
+python -m mt5_mcp --transport http --host 0.0.0.0 --port 7860
 ```
 
-**Remote Client Setup:**
+**Step 2: Run this UI (any platform):**
 ```bash
-# On cloud/Linux/macOS
-export MCP_URL=http://windows-server:7860/gradio_api/mcp/sse
+pip install mt5-mcp-ui
+
+# Configure MCP server URL
+export MCP_SERVER_URL=http://localhost:7860/gradio_api/mcp
+export OPENAI_API_KEY=your-key-here
+
+# Run UI
 python -m mt5_mcp_ui --mode development
 ```
 
@@ -292,6 +287,8 @@ demo.launch()
 
 ### 6.4 Docker Deployment
 
+**This UI as a containerized MCP client:**
+
 **Dockerfile:**
 ```dockerfile
 FROM python:3.11-slim
@@ -302,8 +299,9 @@ RUN pip install -e .
 
 EXPOSE 7860
 
-# App mode for Docker (no MT5)
-ENV MT5_APP_MODE=app
+# UI client only - must connect to MCP server
+ENV MCP_SERVER_URL=""
+ENV PRODUCTION_MODE=true
 
 CMD ["python", "-m", "mt5_mcp_ui", "--mode", "production", "--host", "0.0.0.0"]
 ```
@@ -314,16 +312,19 @@ version: '3.8'
 
 services:
   mt5-ui:
-    image: MetaTrader 5 Financial Analyst
+    image: mt5-financial-analyst-ui
     build: .
     ports:
       - "7860:7860"
     environment:
-      - MCP_URL=http://windows-host:7860/gradio_api/mcp/sse
+      # REQUIRED: Point to the main MCP server
+      - MCP_SERVER_URL=https://unapposable-nondiscriminatingly-mona.ngrok-free.dev/gradio_api/mcp
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - PRODUCTION_MODE=true
     restart: unless-stopped
 ```
+
+**Note:** The MCP server must be running separately on a Windows machine with MT5.
 
 ---
 
@@ -332,13 +333,14 @@ services:
 ### Core Configuration
 
 ```env
-# Application Mode
+# Application Mode (UI presentation only)
 APP_MODE=development              # development | production | demo
 PRODUCTION_MODE=false             # Legacy toggle (true forces production)
 
-# MCP Connection
-MCP_URL=http://localhost:7860/gradio_api/mcp/sse
-MCP_TRANSPORT=sse                 # 'sse' or 'streamable_http'
+# MCP Server Connection (REQUIRED - this is a client only)
+# Point to the main MetaTrader 5 MCP Server
+MCP_SERVER_URL=http://localhost:7860/gradio_api/mcp
+MCP_TRANSPORT=streamable_http     # 'sse' or 'streamable_http'
 
 # Gradio Server
 GRADIO_SERVER_PORT=7860
@@ -391,18 +393,20 @@ OPENAI_API_KEY=disabled           # Hides OpenAI from UI
 
 ---
 
-## 8. MCP Endpoints & Tools
+## 8. MCP Tools Available
 
-### Endpoints (MCP Mode Only)
+**Note:** These tools are provided by the [main MCP server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server), not this UI. This UI is a client that connects to the MCP server.
+
+### MCP Server Endpoints
+
+The main MCP server exposes these endpoints:
 
 | Endpoint | Protocol | Description |
 |----------|----------|-------------|
 | `/gradio_api/mcp/sse` | SSE | Server-Sent Events transport (default) |
 | `/gradio_api/mcp/` | Streamable HTTP | Streamable HTTP transport |
 
-### Available Tools
-
-When running in MCP mode, these tools are exposed:
+### Available Tools from Main MCP Server
 
 | Tool | Description | Example Query |
 |------|-------------|---------------|
@@ -419,6 +423,8 @@ When running in MCP mode, these tools are exposed:
 
 ### Claude Desktop Integration
 
+**To use with Claude Desktop, install and configure the [main MCP server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server), not this UI.**
+
 Add to `claude_desktop_config.json`:
 
 ```json
@@ -426,7 +432,7 @@ Add to `claude_desktop_config.json`:
   "mcpServers": {
     "mt5-trading": {
       "command": "python",
-      "args": ["-m", "mt5_mcp_ui", "--mode", "mcp"],
+      "args": ["-m", "mt5_mcp", "--transport", "stdio"],
       "env": {
         "PYTHONPATH": "."
       }
@@ -435,7 +441,7 @@ Add to `claude_desktop_config.json`:
 }
 ```
 
-Or connect to running server:
+Or connect to running MCP server:
 
 ```json
 {
@@ -446,6 +452,8 @@ Or connect to running server:
   }
 }
 ```
+
+**This UI application is for web-based interaction only.**
 
 ---
 
@@ -522,9 +530,9 @@ location /chat/ {
 
 ```mermaid
 flowchart LR
-  mcp_resources["MCP Mode (Windows + MT5)<br/>• CPU: 2+ cores<br/>• RAM: ≥4GB (MT5 ≈1GB)<br/>• Disk: 2GB for MT5 + 500MB app<br/>• Network: Low latency"]
-  app_resources["App Mode (Cloud/Remote)<br/>• CPU: 1 core<br/>• RAM: ≥1GB<br/>• Disk: 200MB<br/>• Network: Stable link to MCP server"]
-  mcp_resources --- app_resources
+  server_resources["Main MCP Server (Windows + MT5)<br/>• CPU: 2+ cores<br/>• RAM: ≥4GB (MT5 ≈1GB)<br/>• Disk: 2GB for MT5 + 500MB app<br/>• Network: Low latency"]
+  client_resources["This UI Client (Any Platform)<br/>• CPU: 1 core<br/>• RAM: ≥1GB<br/>• Disk: 200MB<br/>• Network: Stable link to MCP server"]
+  client_resources -.->|MCP Protocol| server_resources
 ```
 
 ---
@@ -578,9 +586,9 @@ export OPENAI_API_KEY=sk-actual-key-here
 
 | Issue | Cause | Solution |
 |-------|-------|----------|
-| "MCP mode not available" | Running on Linux/macOS or mt5-mcp not installed | Use app mode with remote MCP server |
-| "Cannot connect to MT5" | MT5 terminal not running | Start MT5 and login |
-| "MCP connection failed" | Wrong URL or server not running | Check `MCP_URL` and server status |
+| "MCP connection failed" | Wrong URL or server not running | Check `MCP_SERVER_URL` and server status |
+| "Cannot connect to MT5" | MT5 terminal not running on MCP server | Ensure main MCP server is running with MT5 |
+| "MCP server unreachable" | Network issue or server down | Verify server URL and network connectivity |
 | "No API key" | Missing LLM provider key | Set appropriate API key in .env |
 | "Rate limit exceeded" | Too many LLM API calls | Wait and retry, or use different provider |
 | "Tool call failed" | Invalid parameters or MT5 issue | Check tool arguments and MT5 connection |
@@ -590,18 +598,18 @@ export OPENAI_API_KEY=sk-actual-key-here
 ```bash
 # Check Python environment
 python --version
-pip list | grep "mt5-mcp\|gradio\|openai"
+pip list | grep "mt5-mcp-ui\|gradio\|openai"
 
-# Test MCP connection (App mode)
+# Test MCP connection
 python -c "
 from mt5_mcp_ui.app import MCPClient
 import asyncio
-client = MCPClient('http://localhost:7860/gradio_api/mcp/sse')
+client = MCPClient('http://localhost:7860/gradio_api/mcp')
 asyncio.run(client.list_tools())
 "
 
-# Verify mt5-mcp installation (MCP mode)
-python -c "import mt5_mcp; print(mt5_mcp.__version__)"
+# Verify this UI installation
+python -c "import mt5_mcp_ui; print(mt5_mcp_ui.__version__)"
 
 # Check environment variables
 python -c "
@@ -638,20 +646,20 @@ python -m mt5_mcp_ui --mode development
 
 ## Summary
 
-### Mode Comparison
+### Deployment Comparison
 
-| Scenario | App Mode | MCP Mode | MT5 Location |
-|----------|----------|----------|--------------|
-| **Local Windows** | ❌ | ✅ | Local |
-| **Cloud/HuggingFace** | ✅ | ❌ | Remote Windows |
-| **Split Deployment** | ✅ (cloud) | ✅ (Windows) | Windows server |
-| **Demo/Testing** | Either | Either | As needed |
+| Scenario | UI Client (This App) | MCP Server | MT5 Location |
+|----------|---------------------|------------|--------------||
+| **Testing Server** | Any platform | Provided remotely | Remote Windows |
+| **Local Development** | Any platform | Windows with MT5 | Local/Same machine |
+| **Cloud Deployment** | HuggingFace/Docker | Separate Windows server | Remote Windows |
+| **Demo Mode** | Any platform | Testing server | Remote Windows |
 
 ### Key Takeaways
 
-- **MCP Mode**: Full integration, Windows required, MT5 local, exposes MCP endpoint
-- **App Mode**: UI only, any platform, connects to remote MCP server
-- **UI Modes**: Control settings visibility (development/production/demo)
+- **This UI**: MCP client only, any platform, connects to MCP server
+- **Main MCP Server**: [MetaTrader-5-MCP-Server](https://github.com/Cloudmeru/MetaTrader-5-MCP-Server) - Windows required, MT5 local, exposes MCP endpoint
+- **UI Presentation Modes**: Control settings visibility (development/production/demo)
 - **Flexible Deployment**: Local, cloud, Docker, HuggingFace Spaces
 - **Multi-Provider**: Support for 10+ LLM providers
 - **Secure**: Environment-based configuration, no hardcoded secrets
